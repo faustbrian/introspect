@@ -46,6 +46,31 @@ $traits = Introspect::traits()
 $interfaces = Introspect::interfaces()
     ->whereImplementedBy(User::class)
     ->get();
+
+// Query views (Laravel)
+$views = Introspect::views()
+    ->whereExtends('layouts.app')
+    ->get();
+
+// Query routes (Laravel)
+$routes = Introspect::routes()
+    ->whereUsesMiddleware('auth')
+    ->wherePathStartsWith('/api')
+    ->get();
+
+// Query classes
+$classes = Introspect::classes()
+    ->whereExtends(Model::class)
+    ->get();
+
+// Query models
+$models = Introspect::models()
+    ->whereHasFillable('email')
+    ->get();
+
+// Detailed model introspection
+$schema = Introspect::model(User::class)
+    ->schema();
 ```
 
 ### Standalone Helpers
@@ -68,8 +93,133 @@ $traits = getAllTraits(User::class);
 - 🏗️ **Class Introspection** - Inspect traits, interfaces, methods, properties, attributes
 - 📦 **Instance Introspection** - Work directly with object instances
 - 🔌 **Trait & Interface Queries** - Find and filter across your codebase
+- 🎨 **Views & Routes** - Query Laravel views and routes with filters
+- 📊 **Model Discovery** - Find and introspect Eloquent models
 - 🛠️ **Standalone Helpers** - Use as functions or fluent API
 - 📚 **Comprehensive Cookbook** - Real-world examples
+- ✅ **100% Test Coverage** - Fully tested with Pest PHP
+
+## Complete API Reference
+
+### Entry Points
+
+```php
+Introspect::class($className)      // Single class introspection
+Introspect::instance($object)       // Object instance introspection
+Introspect::traits()                // Query all traits
+Introspect::interfaces()            // Query all interfaces
+Introspect::views()                 // Query Laravel views
+Introspect::routes()                // Query Laravel routes
+Introspect::classes()               // Query declared classes
+Introspect::models()                // Query Eloquent models
+Introspect::model($modelClass)      // Detailed model introspection
+```
+
+### Views Query Builder
+
+```php
+Introspect::views()
+    ->whereNameEquals('layouts.*')          // Wildcard support
+    ->whereNameStartsWith('admin.')
+    ->whereNameEndsWith('.index')
+    ->whereNameContains('user')
+    ->whereExtends('layouts.app')           // Layout inheritance
+    ->whereDoesntExtend('layouts.guest')
+    ->whereUses('components.button')        // @include detection
+    ->whereDoesntUse('components.modal')
+    ->whereUsedBy('pages.*')                // Parent view detection
+    ->whereNotUsedBy('emails.*')
+    ->or(fn($q) => $q->whereNameStartsWith('public.'))
+    ->get()                                  // Returns Collection<string>
+    ->first()
+    ->exists()
+    ->count()
+```
+
+### Routes Query Builder
+
+```php
+Introspect::routes()
+    ->whereUsesController(UserController::class, 'index')
+    ->whereUsesMiddleware('auth')
+    ->whereUsesMiddlewares(['auth', 'verified'], all: true)
+    ->whereDoesntUseMiddleware('guest')
+    ->whereNameEquals('admin.*')            // Wildcard support
+    ->whereNameStartsWith('api.')
+    ->whereNameEndsWith('.show')
+    ->whereNameDoesntEqual('public.*')
+    ->wherePathEquals('/users')
+    ->wherePathStartsWith('/api')           // Wildcard support
+    ->wherePathEndsWith('/edit')
+    ->wherePathContains('admin')
+    ->whereUsesMethod('POST')               // HTTP method
+    ->or(fn($q) => $q->wherePathStartsWith('/public'))
+    ->get()                                  // Returns Collection<Route>
+    ->first()
+    ->exists()
+    ->count()
+```
+
+### Classes Query Builder
+
+```php
+Introspect::classes()
+    ->whereName('App\Models\*')             // Namespace patterns
+    ->whereNameStartsWith('App\Services')
+    ->whereNameEndsWith('Controller')
+    ->whereNameContains('Repository')
+    ->whereExtends(Model::class)
+    ->whereImplements(ShouldQueue::class)
+    ->whereUses(Dispatchable::class)
+    ->or(fn($q) => $q->whereImplements(Arrayable::class))
+    ->get()                                  // Returns Collection<string>
+    ->first()
+    ->exists()
+    ->count()
+```
+
+### Models Query Builder
+
+```php
+Introspect::models()
+    ->whereHasProperty('email')
+    ->whereDoesntHaveProperty('password')
+    ->whereHasProperties(['name', 'email'], all: true)
+    ->whereHasFillable('email')
+    ->whereHasFillableProperties(['name', 'email'])
+    ->whereHasHidden('password')
+    ->whereHasHiddenProperties(['password', 'remember_token'])
+    ->whereHasAppended('full_name')
+    ->whereHasAppendedProperties(['avatar_url', 'is_admin'])
+    ->whereHasReadable('email')             // Public or has accessor
+    ->whereHasReadableProperties(['email', 'name'])
+    ->whereHasWritable('name')              // Fillable or public
+    ->whereHasWritableProperties(['name', 'email'])
+    ->whereHasRelationship('posts')
+    ->whereDoesntHaveRelationship('comments')
+    ->or(fn($q) => $q->whereHasFillable('title'))
+    ->get()                                  // Returns Collection<string>
+    ->first()
+    ->exists()
+    ->count()
+```
+
+### Model Introspection (Detailed)
+
+```php
+$introspector = Introspect::model(User::class);
+
+$introspector->properties()         // All properties (fillable, hidden, appended, casts)
+$introspector->schema()             // JSON schema export
+$introspector->fillable()           // Fillable attributes
+$introspector->hidden()             // Hidden attributes
+$introspector->appended()           // Appended attributes
+$introspector->casts()              // Cast definitions
+$introspector->relationships()      // Relationship methods
+$introspector->table()              // Table name
+$introspector->primaryKey()         // Primary key
+$introspector->toArray()            // Complete model information
+```
 
 ## Documentation
 

@@ -122,6 +122,11 @@ class InterfaceIntrospector
 
     private function collectInterfaces(): array
     {
+        // If classes is explicitly set to empty array, return empty
+        if ($this->classes === []) {
+            return [];
+        }
+
         if (empty($this->classes)) {
             return $this->getAllDeclaredInterfaces();
         }

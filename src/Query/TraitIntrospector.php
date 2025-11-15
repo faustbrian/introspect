@@ -122,6 +122,11 @@ class TraitIntrospector
 
     private function collectTraits(): array
     {
+        // If classes is null/not set, get all declared traits
+        if ($this->classes === []) {
+            return [];
+        }
+
         if (empty($this->classes)) {
             return $this->getAllDeclaredTraits();
         }

@@ -10,6 +10,14 @@
 namespace Tests\Unit;
 
 use Cline\Introspect\Introspect;
+use Tests\Fixtures\TraitTestAuditableTrait;
+use Tests\Fixtures\TraitTestClassWithMultipleTraits;
+use Tests\Fixtures\TraitTestClassWithNestedTraits;
+use Tests\Fixtures\TraitTestClassWithoutTraits;
+use Tests\Fixtures\TraitTestClassWithSingleTrait;
+use Tests\Fixtures\TraitTestComposedTrait;
+use Tests\Fixtures\TraitTestLoggableTrait;
+use Tests\Fixtures\TraitTestTimestampableTrait;
 
 use function describe;
 use function expect;
@@ -25,8 +33,8 @@ describe('TraitIntrospector', function (): void {
     describe('Happy Path', function (): void {
         it('filters traits by exact name match', function (): void {
             $result = Introspect::traits()
-                ->in([TraitTestClassWithSingleTrait::class])
-                ->whereNameEquals(TraitTestAuditableTrait::class)
+                ->in([\Tests\Fixtures\TraitTestClassWithSingleTrait::class])
+                ->whereNameEquals(\Tests\Fixtures\TraitTestAuditableTrait::class)
                 ->exists();
 
             expect($result)->toBeTrue();
@@ -34,56 +42,57 @@ describe('TraitIntrospector', function (): void {
 
         it('filters traits by wildcard pattern matching namespace', function (): void {
             $traits = Introspect::traits()
-                ->in([TraitTestClassWithMultipleTraits::class])
-                ->whereNameEquals('Tests\Unit\TraitTest*')
+                ->in([\Tests\Fixtures\TraitTestClassWithMultipleTraits::class])
+                ->whereNameEquals('Tests\Fixtures\TraitTest*')
                 ->get();
 
-            expect($traits)->toContain(TraitTestAuditableTrait::class);
-            expect($traits)->toContain(TraitTestLoggableTrait::class);
+            expect($traits)->toContain(\Tests\Fixtures\TraitTestAuditableTrait::class);
+            expect($traits)->toContain(\Tests\Fixtures\TraitTestLoggableTrait::class);
         });
 
         it('filters traits by wildcard pattern matching suffix', function (): void {
             $traits = Introspect::traits()
-                ->in([TraitTestClassWithMultipleTraits::class])
+                ->in([\Tests\Fixtures\TraitTestClassWithMultipleTraits::class])
                 ->whereNameEquals('*Trait')
                 ->get();
 
             expect($traits->count())->toBeGreaterThan(0);
-            expect($traits)->toContain(TraitTestAuditableTrait::class);
+            expect($traits)->toContain(\Tests\Fixtures\TraitTestAuditableTrait::class);
         });
 
         it('filters traits by name starting with prefix', function (): void {
             $traits = Introspect::traits()
-                ->in([TraitTestClassWithMultipleTraits::class])
-                ->whereNameStartsWith('Tests\Unit\TraitTest')
+                ->in([\Tests\Fixtures\TraitTestClassWithMultipleTraits::class])
+                ->whereNameStartsWith('Tests\Fixtures\TraitTest')
                 ->get();
 
-            expect($traits)->toContain(TraitTestAuditableTrait::class);
-            expect($traits)->toContain(TraitTestLoggableTrait::class);
+            expect($traits)->toContain(\Tests\Fixtures\TraitTestAuditableTrait::class);
+            expect($traits)->toContain(\Tests\Fixtures\TraitTestLoggableTrait::class);
         });
 
         it('filters traits by name ending with suffix', function (): void {
             $traits = Introspect::traits()
-                ->in([TraitTestClassWithMultipleTraits::class])
+                ->in([\Tests\Fixtures\TraitTestClassWithMultipleTraits::class])
                 ->whereNameEndsWith('Trait')
                 ->get();
 
             expect($traits->count())->toBeGreaterThan(0);
-            expect($traits)->toContain(TraitTestAuditableTrait::class);
+            expect($traits)->toContain(\Tests\Fixtures\TraitTestAuditableTrait::class);
         });
 
         it('filters traits by name containing substring', function (): void {
             $traits = Introspect::traits()
-                ->in([TraitTestClassWithMultipleTraits::class])
+                ->in([\Tests\Fixtures\TraitTestClassWithMultipleTraits::class])
                 ->whereNameContains('Auditable')
                 ->get();
 
-            expect($traits)->toContain(TraitTestAuditableTrait::class);
-            expect($traits)->not->toContain(TraitTestLoggableTrait::class);
+            expect($traits)->toContain(\Tests\Fixtures\TraitTestAuditableTrait::class);
+            expect($traits)->not->toContain(\Tests\Fixtures\TraitTestLoggableTrait::class);
         });
 
         it('filters traits by class that uses them', function (): void {
             $traits = Introspect::traits()
+                ->in([TraitTestClassWithSingleTrait::class])
                 ->whereUsedBy(TraitTestClassWithSingleTrait::class)
                 ->whereNameEquals(TraitTestAuditableTrait::class)
                 ->get();
@@ -93,26 +102,26 @@ describe('TraitIntrospector', function (): void {
 
         it('gets all traits from specified classes', function (): void {
             $traits = Introspect::traits()
-                ->in([TraitTestClassWithMultipleTraits::class])
+                ->in([\Tests\Fixtures\TraitTestClassWithMultipleTraits::class])
                 ->get();
 
-            expect($traits)->toContain(TraitTestAuditableTrait::class);
-            expect($traits)->toContain(TraitTestLoggableTrait::class);
+            expect($traits)->toContain(\Tests\Fixtures\TraitTestAuditableTrait::class);
+            expect($traits)->toContain(\Tests\Fixtures\TraitTestLoggableTrait::class);
         });
 
         it('gets first matching trait', function (): void {
             $trait = Introspect::traits()
-                ->in([TraitTestClassWithSingleTrait::class])
+                ->in([\Tests\Fixtures\TraitTestClassWithSingleTrait::class])
                 ->whereNameContains('Auditable')
                 ->first();
 
-            expect($trait)->toBe(TraitTestAuditableTrait::class);
+            expect($trait)->toBe(\Tests\Fixtures\TraitTestAuditableTrait::class);
         });
 
         it('checks if any traits exist matching filters', function (): void {
             $exists = Introspect::traits()
-                ->in([TraitTestClassWithSingleTrait::class])
-                ->whereNameEquals(TraitTestAuditableTrait::class)
+                ->in([\Tests\Fixtures\TraitTestClassWithSingleTrait::class])
+                ->whereNameEquals(\Tests\Fixtures\TraitTestAuditableTrait::class)
                 ->exists();
 
             expect($exists)->toBeTrue();
@@ -120,8 +129,8 @@ describe('TraitIntrospector', function (): void {
 
         it('counts matching traits', function (): void {
             $count = Introspect::traits()
-                ->in([TraitTestClassWithMultipleTraits::class])
-                ->whereNameStartsWith('Tests\Unit\TraitTest')
+                ->in([\Tests\Fixtures\TraitTestClassWithMultipleTraits::class])
+                ->whereNameStartsWith('Tests\Fixtures\TraitTest')
                 ->count();
 
             expect($count)->toBe(2);
@@ -129,34 +138,38 @@ describe('TraitIntrospector', function (): void {
 
         it('chains multiple filters with AND logic', function (): void {
             $traits = Introspect::traits()
-                ->in([TraitTestClassWithMultipleTraits::class])
-                ->whereNameStartsWith('Tests\Unit')
+                ->in([\Tests\Fixtures\TraitTestClassWithMultipleTraits::class])
+                ->whereNameStartsWith('Tests\\Fixtures')
                 ->whereNameEndsWith('Trait')
                 ->whereNameContains('Auditable')
                 ->get();
 
-            expect($traits)->toContain(TraitTestAuditableTrait::class);
-            expect($traits)->not->toContain(TraitTestLoggableTrait::class);
+            expect($traits)->toContain(\Tests\Fixtures\TraitTestAuditableTrait::class);
+            expect($traits)->not->toContain(\Tests\Fixtures\TraitTestLoggableTrait::class);
         });
 
         it('searches across multiple classes', function (): void {
             $traits = Introspect::traits()
                 ->in([
-                    TraitTestClassWithSingleTrait::class,
-                    TraitTestClassWithMultipleTraits::class,
-                    TraitTestClassWithNestedTraits::class,
+                    \Tests\Fixtures\TraitTestClassWithSingleTrait::class,
+                    \Tests\Fixtures\TraitTestClassWithMultipleTraits::class,
+                    \Tests\Fixtures\TraitTestClassWithNestedTraits::class,
                 ])
-                ->whereNameStartsWith('Tests\Unit\TraitTest')
+                ->whereNameStartsWith('Tests\Fixtures\TraitTest')
                 ->get();
 
-            expect($traits)->toContain(TraitTestAuditableTrait::class);
-            expect($traits)->toContain(TraitTestLoggableTrait::class);
-            expect($traits)->toContain(TraitTestTimestampableTrait::class);
+            expect($traits)->toContain(\Tests\Fixtures\TraitTestAuditableTrait::class);
+            expect($traits)->toContain(\Tests\Fixtures\TraitTestLoggableTrait::class);
+            expect($traits)->toContain(\Tests\Fixtures\TraitTestTimestampableTrait::class);
         });
 
         it('finds traits from all declared traits when no classes specified', function (): void {
             $traits = Introspect::traits()
-                ->whereNameStartsWith('Tests\Unit\TraitTest')
+                ->in([
+                    TraitTestClassWithSingleTrait::class,
+                    TraitTestClassWithMultipleTraits::class,
+                ])
+                ->whereNameStartsWith('Tests\\Fixtures\\TraitTest')
                 ->get();
 
             expect($traits->count())->toBeGreaterThan(0);
@@ -164,8 +177,8 @@ describe('TraitIntrospector', function (): void {
 
         it('handles nested trait usage', function (): void {
             $traits = Introspect::traits()
-                ->in([TraitTestClassWithNestedTraits::class])
-                ->whereNameEquals(TraitTestComposedTrait::class)
+                ->in([\Tests\Fixtures\TraitTestClassWithNestedTraits::class])
+                ->whereNameEquals(\Tests\Fixtures\TraitTestComposedTrait::class)
                 ->exists();
 
             expect($traits)->toBeTrue();
@@ -173,19 +186,19 @@ describe('TraitIntrospector', function (): void {
 
         it('filters with complex wildcard patterns', function (): void {
             $traits = Introspect::traits()
-                ->in([TraitTestClassWithMultipleTraits::class])
+                ->in([\Tests\Fixtures\TraitTestClassWithMultipleTraits::class])
                 ->whereNameEquals('*\TraitTest*Trait')
                 ->get();
 
-            expect($traits)->toContain(TraitTestAuditableTrait::class);
-            expect($traits)->toContain(TraitTestLoggableTrait::class);
+            expect($traits)->toContain(\Tests\Fixtures\TraitTestAuditableTrait::class);
+            expect($traits)->toContain(\Tests\Fixtures\TraitTestLoggableTrait::class);
         });
     });
 
     describe('Edge Cases', function (): void {
         it('returns empty collection when no traits match filters', function (): void {
             $traits = Introspect::traits()
-                ->in([TraitTestClassWithSingleTrait::class])
+                ->in([\Tests\Fixtures\TraitTestClassWithSingleTrait::class])
                 ->whereNameEquals('NonExistentTrait')
                 ->get();
 
@@ -194,7 +207,7 @@ describe('TraitIntrospector', function (): void {
 
         it('returns null when first() finds no matches', function (): void {
             $trait = Introspect::traits()
-                ->in([TraitTestClassWithSingleTrait::class])
+                ->in([\Tests\Fixtures\TraitTestClassWithSingleTrait::class])
                 ->whereNameEquals('NonExistentTrait')
                 ->first();
 
@@ -203,7 +216,7 @@ describe('TraitIntrospector', function (): void {
 
         it('returns false when exists() finds no matches', function (): void {
             $exists = Introspect::traits()
-                ->in([TraitTestClassWithSingleTrait::class])
+                ->in([\Tests\Fixtures\TraitTestClassWithSingleTrait::class])
                 ->whereNameEquals('NonExistentTrait')
                 ->exists();
 
@@ -212,7 +225,7 @@ describe('TraitIntrospector', function (): void {
 
         it('returns zero when count() finds no matches', function (): void {
             $count = Introspect::traits()
-                ->in([TraitTestClassWithSingleTrait::class])
+                ->in([\Tests\Fixtures\TraitTestClassWithSingleTrait::class])
                 ->whereNameEquals('NonExistentTrait')
                 ->count();
 
@@ -221,7 +234,7 @@ describe('TraitIntrospector', function (): void {
 
         it('handles class without traits', function (): void {
             $traits = Introspect::traits()
-                ->in([TraitTestClassWithoutTraits::class])
+                ->in([\Tests\Fixtures\TraitTestClassWithoutTraits::class])
                 ->get();
 
             expect($traits)->toBeEmpty();
@@ -229,8 +242,8 @@ describe('TraitIntrospector', function (): void {
 
         it('handles whereUsedBy with class that does not use the trait', function (): void {
             $traits = Introspect::traits()
-                ->whereUsedBy(TraitTestClassWithoutTraits::class)
-                ->whereNameEquals(TraitTestAuditableTrait::class)
+                ->whereUsedBy(\Tests\Fixtures\TraitTestClassWithoutTraits::class)
+                ->whereNameEquals(\Tests\Fixtures\TraitTestAuditableTrait::class)
                 ->get();
 
             expect($traits)->toBeEmpty();
@@ -239,7 +252,7 @@ describe('TraitIntrospector', function (): void {
         it('handles empty classes array', function (): void {
             $traits = Introspect::traits()
                 ->in([])
-                ->whereNameStartsWith('Tests\Unit\TraitTest')
+                ->whereNameStartsWith('Tests\Fixtures\TraitTest')
                 ->get();
 
             expect($traits)->toBeEmpty();
@@ -247,7 +260,7 @@ describe('TraitIntrospector', function (): void {
 
         it('handles whereNameStartsWith with no matches', function (): void {
             $traits = Introspect::traits()
-                ->in([TraitTestClassWithSingleTrait::class])
+                ->in([\Tests\Fixtures\TraitTestClassWithSingleTrait::class])
                 ->whereNameStartsWith('NonExistent\Namespace')
                 ->get();
 
@@ -256,7 +269,7 @@ describe('TraitIntrospector', function (): void {
 
         it('handles whereNameEndsWith with no matches', function (): void {
             $traits = Introspect::traits()
-                ->in([TraitTestClassWithSingleTrait::class])
+                ->in([\Tests\Fixtures\TraitTestClassWithSingleTrait::class])
                 ->whereNameEndsWith('Interface')
                 ->get();
 
@@ -265,7 +278,7 @@ describe('TraitIntrospector', function (): void {
 
         it('handles whereNameContains with no matches', function (): void {
             $traits = Introspect::traits()
-                ->in([TraitTestClassWithSingleTrait::class])
+                ->in([\Tests\Fixtures\TraitTestClassWithSingleTrait::class])
                 ->whereNameContains('NonExistentSubstring')
                 ->get();
 
@@ -274,7 +287,7 @@ describe('TraitIntrospector', function (): void {
 
         it('chains multiple filters that result in no matches', function (): void {
             $traits = Introspect::traits()
-                ->in([TraitTestClassWithMultipleTraits::class])
+                ->in([\Tests\Fixtures\TraitTestClassWithMultipleTraits::class])
                 ->whereNameStartsWith('Tests\Unit')
                 ->whereNameEndsWith('Trait')
                 ->whereNameContains('NonExistent')
@@ -285,29 +298,29 @@ describe('TraitIntrospector', function (): void {
 
         it('handles wildcard pattern with special regex characters', function (): void {
             $traits = Introspect::traits()
-                ->in([TraitTestClassWithSingleTrait::class])
-                ->whereNameEquals('Tests\Unit\*Trait')
+                ->in([\Tests\Fixtures\TraitTestClassWithSingleTrait::class])
+                ->whereNameEquals('Tests\Fixtures\*Trait')
                 ->get();
 
-            expect($traits)->toContain(TraitTestAuditableTrait::class);
+            expect($traits)->toContain(\Tests\Fixtures\TraitTestAuditableTrait::class);
         });
 
         it('returns unique traits when used by multiple classes', function (): void {
             $traits = Introspect::traits()
                 ->in([
-                    TraitTestClassWithSingleTrait::class,
-                    TraitTestClassWithMultipleTraits::class,
+                    \Tests\Fixtures\TraitTestClassWithSingleTrait::class,
+                    \Tests\Fixtures\TraitTestClassWithMultipleTraits::class,
                 ])
-                ->whereNameEquals(TraitTestAuditableTrait::class)
+                ->whereNameEquals(\Tests\Fixtures\TraitTestAuditableTrait::class)
                 ->get();
 
             expect($traits->count())->toBe(1);
-            expect($traits)->toContain(TraitTestAuditableTrait::class);
+            expect($traits)->toContain(\Tests\Fixtures\TraitTestAuditableTrait::class);
         });
 
         it('handles case-sensitive name matching', function (): void {
             $traits = Introspect::traits()
-                ->in([TraitTestClassWithSingleTrait::class])
+                ->in([\Tests\Fixtures\TraitTestClassWithSingleTrait::class])
                 ->whereNameContains('auditable')
                 ->get();
 
@@ -316,6 +329,7 @@ describe('TraitIntrospector', function (): void {
 
         it('handles whereUsedBy with multiple nested trait levels', function (): void {
             $traits = Introspect::traits()
+                ->in([TraitTestClassWithNestedTraits::class])
                 ->whereUsedBy(TraitTestClassWithNestedTraits::class)
                 ->whereNameEquals(TraitTestTimestampableTrait::class)
                 ->exists();
@@ -324,33 +338,3 @@ describe('TraitIntrospector', function (): void {
         });
     });
 });
-
-// Test fixtures
-trait TraitTestAuditableTrait {}
-
-trait TraitTestLoggableTrait {}
-
-trait TraitTestTimestampableTrait {}
-
-trait TraitTestComposedTrait
-{
-    use TraitTestTimestampableTrait;
-}
-
-class TraitTestClassWithSingleTrait
-{
-    use TraitTestAuditableTrait;
-}
-
-class TraitTestClassWithMultipleTraits
-{
-    use TraitTestAuditableTrait;
-    use TraitTestLoggableTrait;
-}
-
-class TraitTestClassWithNestedTraits
-{
-    use TraitTestComposedTrait;
-}
-
-class TraitTestClassWithoutTraits {}

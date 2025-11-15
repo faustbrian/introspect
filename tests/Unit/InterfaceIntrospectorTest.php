@@ -10,6 +10,20 @@
 namespace Tests\Unit;
 
 use Cline\Introspect\Introspect;
+use Tests\Fixtures\TestChildWithInterface;
+use Tests\Fixtures\TestClassWithoutInterfaces;
+use Tests\Fixtures\TestInterfaceA;
+use Tests\Fixtures\TestInterfaceB;
+use Tests\Fixtures\TestInterfaceC;
+use Tests\Fixtures\TestInterfaceImplementation;
+use Tests\Fixtures\TestMultipleInterfaces;
+use Tests\Fixtures\TestNamespacedInterface;
+use Tests\Fixtures\TestNamespacedInterfaceImplementation;
+use Tests\Fixtures\TestParentInterface;
+use Tests\Fixtures\TestParentWithInterface;
+use Tests\Fixtures\TestReadable;
+use Tests\Fixtures\TestSuffixedInterfaces;
+use Tests\Fixtures\TestWritable;
 
 use function describe;
 use function expect;
@@ -32,74 +46,75 @@ describe('InterfaceIntrospector', function (): void {
     describe('Happy Path', function (): void {
         it('gets interfaces by exact name match', function (): void {
             $interfaces = Introspect::interfaces()
-                ->in([TestInterfaceImplementation::class])
-                ->whereNameEquals(TestInterfaceA::class)
+                ->in([\Tests\Fixtures\TestInterfaceImplementation::class])
+                ->whereNameEquals(\Tests\Fixtures\TestInterfaceA::class)
                 ->get();
 
-            expect($interfaces)->toContain(TestInterfaceA::class)
+            expect($interfaces)->toContain(\Tests\Fixtures\TestInterfaceA::class)
                 ->and($interfaces)->toHaveCount(1);
         });
 
         it('gets interfaces by wildcard pattern with asterisk prefix', function (): void {
             $interfaces = Introspect::interfaces()
-                ->in([TestInterfaceImplementation::class])
+                ->in([\Tests\Fixtures\TestInterfaceImplementation::class])
                 ->whereNameEquals('*InterfaceA')
                 ->get();
 
-            expect($interfaces)->toContain(TestInterfaceA::class);
+            expect($interfaces)->toContain(\Tests\Fixtures\TestInterfaceA::class);
         });
 
         it('gets interfaces by wildcard pattern with asterisk suffix', function (): void {
             $interfaces = Introspect::interfaces()
-                ->in([TestInterfaceImplementation::class])
-                ->whereNameEquals('Tests\Unit\TestInterface*')
+                ->in([\Tests\Fixtures\TestInterfaceImplementation::class])
+                ->whereNameEquals('Tests\Fixtures\TestInterface*')
                 ->get();
 
-            expect($interfaces)->toContain(TestInterfaceA::class)
-                ->and($interfaces)->toContain(TestInterfaceB::class);
+            expect($interfaces)->toContain(\Tests\Fixtures\TestInterfaceA::class)
+                ->and($interfaces)->toContain(\Tests\Fixtures\TestInterfaceB::class);
         });
 
         it('gets interfaces by wildcard pattern with asterisk in middle', function (): void {
             $interfaces = Introspect::interfaces()
-                ->in([TestInterfaceImplementation::class])
+                ->in([\Tests\Fixtures\TestInterfaceImplementation::class])
                 ->whereNameEquals('Tests\*\TestInterfaceA')
                 ->get();
 
-            expect($interfaces)->toContain(TestInterfaceA::class);
+            expect($interfaces)->toContain(\Tests\Fixtures\TestInterfaceA::class);
         });
 
         it('gets interfaces by name prefix', function (): void {
             $interfaces = Introspect::interfaces()
-                ->in([TestInterfaceImplementation::class])
-                ->whereNameStartsWith('Tests\Unit\TestInterface')
+                ->in([\Tests\Fixtures\TestInterfaceImplementation::class])
+                ->whereNameStartsWith('Tests\Fixtures\TestInterface')
                 ->get();
 
-            expect($interfaces)->toContain(TestInterfaceA::class)
-                ->and($interfaces)->toContain(TestInterfaceB::class);
+            expect($interfaces)->toContain(\Tests\Fixtures\TestInterfaceA::class)
+                ->and($interfaces)->toContain(\Tests\Fixtures\TestInterfaceB::class);
         });
 
         it('gets interfaces by name suffix', function (): void {
             $interfaces = Introspect::interfaces()
-                ->in([TestInterfaceImplementation::class])
+                ->in([\Tests\Fixtures\TestInterfaceImplementation::class])
                 ->whereNameEndsWith('InterfaceA')
                 ->get();
 
-            expect($interfaces)->toContain(TestInterfaceA::class)
-                ->and($interfaces)->not->toContain(TestInterfaceB::class);
+            expect($interfaces)->toContain(\Tests\Fixtures\TestInterfaceA::class)
+                ->and($interfaces)->not->toContain(\Tests\Fixtures\TestInterfaceB::class);
         });
 
         it('gets interfaces by name containing substring', function (): void {
             $interfaces = Introspect::interfaces()
-                ->in([TestInterfaceImplementation::class])
+                ->in([\Tests\Fixtures\TestInterfaceImplementation::class])
                 ->whereNameContains('InterfaceB')
                 ->get();
 
-            expect($interfaces)->toContain(TestInterfaceB::class)
-                ->and($interfaces)->not->toContain(TestInterfaceA::class);
+            expect($interfaces)->toContain(\Tests\Fixtures\TestInterfaceB::class)
+                ->and($interfaces)->not->toContain(\Tests\Fixtures\TestInterfaceA::class);
         });
 
         it('filters interfaces implemented by specific class', function (): void {
             $interfaces = Introspect::interfaces()
+                ->in([TestInterfaceImplementation::class])
                 ->whereImplementedBy(TestInterfaceImplementation::class)
                 ->get();
 
@@ -109,8 +124,8 @@ describe('InterfaceIntrospector', function (): void {
 
         it('returns first matching interface', function (): void {
             $interface = Introspect::interfaces()
-                ->in([TestInterfaceImplementation::class])
-                ->whereNameStartsWith('Tests\Unit\TestInterface')
+                ->in([\Tests\Fixtures\TestInterfaceImplementation::class])
+                ->whereNameStartsWith('Tests\Fixtures\TestInterface')
                 ->first();
 
             expect($interface)->toBeString()
@@ -119,8 +134,8 @@ describe('InterfaceIntrospector', function (): void {
 
         it('checks if matching interfaces exist', function (): void {
             $exists = Introspect::interfaces()
-                ->in([TestInterfaceImplementation::class])
-                ->whereNameEquals(TestInterfaceA::class)
+                ->in([\Tests\Fixtures\TestInterfaceImplementation::class])
+                ->whereNameEquals(\Tests\Fixtures\TestInterfaceA::class)
                 ->exists();
 
             expect($exists)->toBeTrue();
@@ -128,8 +143,8 @@ describe('InterfaceIntrospector', function (): void {
 
         it('counts matching interfaces', function (): void {
             $count = Introspect::interfaces()
-                ->in([TestInterfaceImplementation::class])
-                ->whereNameStartsWith('Tests\Unit\TestInterface')
+                ->in([\Tests\Fixtures\TestInterfaceImplementation::class])
+                ->whereNameStartsWith('Tests\Fixtures\TestInterface')
                 ->count();
 
             expect($count)->toBeGreaterThanOrEqual(2);
@@ -137,36 +152,36 @@ describe('InterfaceIntrospector', function (): void {
 
         it('gets all interfaces from a class with multiple interfaces', function (): void {
             $interfaces = Introspect::interfaces()
-                ->in([TestMultipleInterfaces::class])
+                ->in([\Tests\Fixtures\TestMultipleInterfaces::class])
                 ->get();
 
-            expect($interfaces)->toContain(TestInterfaceA::class)
-                ->and($interfaces)->toContain(TestInterfaceB::class)
-                ->and($interfaces)->toContain(TestInterfaceC::class);
+            expect($interfaces)->toContain(\Tests\Fixtures\TestInterfaceA::class)
+                ->and($interfaces)->toContain(\Tests\Fixtures\TestInterfaceB::class)
+                ->and($interfaces)->toContain(\Tests\Fixtures\TestInterfaceC::class);
         });
 
         it('gets interfaces from class hierarchy', function (): void {
             $interfaces = Introspect::interfaces()
-                ->in([TestChildWithInterface::class])
-                ->whereNameEquals(TestParentInterface::class)
+                ->in([\Tests\Fixtures\TestChildWithInterface::class])
+                ->whereNameEquals(\Tests\Fixtures\TestParentInterface::class)
                 ->get();
 
-            expect($interfaces)->toContain(TestParentInterface::class);
+            expect($interfaces)->toContain(\Tests\Fixtures\TestParentInterface::class);
         });
 
         it('filters by suffix pattern matching', function (): void {
             $interfaces = Introspect::interfaces()
-                ->in([TestSuffixedInterfaces::class])
+                ->in([\Tests\Fixtures\TestSuffixedInterfaces::class])
                 ->whereNameEndsWith('able')
                 ->get();
 
-            expect($interfaces)->toContain(TestReadable::class)
-                ->and($interfaces)->toContain(TestWritable::class);
+            expect($interfaces)->toContain(\Tests\Fixtures\TestReadable::class)
+                ->and($interfaces)->toContain(\Tests\Fixtures\TestWritable::class);
         });
 
         it('filters by contains pattern for namespaced interfaces', function (): void {
             $interfaces = Introspect::interfaces()
-                ->in([TestNamespacedInterface::class])
+                ->in([TestNamespacedInterfaceImplementation::class])
                 ->whereNameContains('Namespaced')
                 ->get();
 
@@ -177,7 +192,7 @@ describe('InterfaceIntrospector', function (): void {
     describe('Edge Cases', function (): void {
         it('returns empty collection when no interfaces match', function (): void {
             $interfaces = Introspect::interfaces()
-                ->in([TestInterfaceImplementation::class])
+                ->in([\Tests\Fixtures\TestInterfaceImplementation::class])
                 ->whereNameEquals('NonExistentInterface')
                 ->get();
 
@@ -186,7 +201,7 @@ describe('InterfaceIntrospector', function (): void {
 
         it('returns null when first() finds no matches', function (): void {
             $interface = Introspect::interfaces()
-                ->in([TestInterfaceImplementation::class])
+                ->in([\Tests\Fixtures\TestInterfaceImplementation::class])
                 ->whereNameEquals('NonExistentInterface')
                 ->first();
 
@@ -195,7 +210,7 @@ describe('InterfaceIntrospector', function (): void {
 
         it('returns false when exists() finds no matches', function (): void {
             $exists = Introspect::interfaces()
-                ->in([TestInterfaceImplementation::class])
+                ->in([\Tests\Fixtures\TestInterfaceImplementation::class])
                 ->whereNameEquals('NonExistentInterface')
                 ->exists();
 
@@ -204,7 +219,7 @@ describe('InterfaceIntrospector', function (): void {
 
         it('returns zero when count() finds no matches', function (): void {
             $count = Introspect::interfaces()
-                ->in([TestInterfaceImplementation::class])
+                ->in([\Tests\Fixtures\TestInterfaceImplementation::class])
                 ->whereNameEquals('NonExistentInterface')
                 ->count();
 
@@ -213,7 +228,7 @@ describe('InterfaceIntrospector', function (): void {
 
         it('handles class without any interfaces', function (): void {
             $interfaces = Introspect::interfaces()
-                ->in([TestClassWithoutInterfaces::class])
+                ->in([\Tests\Fixtures\TestClassWithoutInterfaces::class])
                 ->get();
 
             expect($interfaces)->toBeEmpty();
@@ -222,7 +237,7 @@ describe('InterfaceIntrospector', function (): void {
         it('chains multiple filters with AND logic', function (): void {
             $interfaces = Introspect::interfaces()
                 ->in([TestInterfaceImplementation::class])
-                ->whereNameStartsWith('Tests\Unit')
+                ->whereNameStartsWith('Tests\\Fixtures')
                 ->whereNameEndsWith('InterfaceA')
                 ->whereImplementedBy(TestInterfaceImplementation::class)
                 ->get();
@@ -233,7 +248,7 @@ describe('InterfaceIntrospector', function (): void {
 
         it('handles wildcard pattern with no matches', function (): void {
             $interfaces = Introspect::interfaces()
-                ->in([TestInterfaceImplementation::class])
+                ->in([\Tests\Fixtures\TestInterfaceImplementation::class])
                 ->whereNameEquals('*NonExistent*')
                 ->get();
 
@@ -242,7 +257,7 @@ describe('InterfaceIntrospector', function (): void {
 
         it('handles whereImplementedBy with class not implementing any interfaces', function (): void {
             $interfaces = Introspect::interfaces()
-                ->whereImplementedBy(TestClassWithoutInterfaces::class)
+                ->whereImplementedBy(\Tests\Fixtures\TestClassWithoutInterfaces::class)
                 ->get();
 
             expect($interfaces)->toBeEmpty();
@@ -250,7 +265,7 @@ describe('InterfaceIntrospector', function (): void {
 
         it('handles whereNameStartsWith with no matches', function (): void {
             $interfaces = Introspect::interfaces()
-                ->in([TestInterfaceImplementation::class])
+                ->in([\Tests\Fixtures\TestInterfaceImplementation::class])
                 ->whereNameStartsWith('NonExistent\Namespace')
                 ->get();
 
@@ -259,7 +274,7 @@ describe('InterfaceIntrospector', function (): void {
 
         it('handles whereNameEndsWith with no matches', function (): void {
             $interfaces = Introspect::interfaces()
-                ->in([TestInterfaceImplementation::class])
+                ->in([\Tests\Fixtures\TestInterfaceImplementation::class])
                 ->whereNameEndsWith('NonExistentSuffix')
                 ->get();
 
@@ -268,7 +283,7 @@ describe('InterfaceIntrospector', function (): void {
 
         it('handles whereNameContains with no matches', function (): void {
             $interfaces = Introspect::interfaces()
-                ->in([TestInterfaceImplementation::class])
+                ->in([\Tests\Fixtures\TestInterfaceImplementation::class])
                 ->whereNameContains('NonExistentSubstring')
                 ->get();
 
@@ -277,17 +292,17 @@ describe('InterfaceIntrospector', function (): void {
 
         it('handles complex wildcard pattern', function (): void {
             $interfaces = Introspect::interfaces()
-                ->in([TestInterfaceImplementation::class])
+                ->in([\Tests\Fixtures\TestInterfaceImplementation::class])
                 ->whereNameEquals('Tests\*\*Interface*')
                 ->get();
 
-            expect($interfaces)->toContain(TestInterfaceA::class)
-                ->and($interfaces)->toContain(TestInterfaceB::class);
+            expect($interfaces)->toContain(\Tests\Fixtures\TestInterfaceA::class)
+                ->and($interfaces)->toContain(\Tests\Fixtures\TestInterfaceB::class);
         });
 
         it('handles case sensitivity in name matching', function (): void {
             $interfaces = Introspect::interfaces()
-                ->in([TestInterfaceImplementation::class])
+                ->in([\Tests\Fixtures\TestInterfaceImplementation::class])
                 ->whereNameEquals('tests\unit\testinterfacea')
                 ->get();
 
@@ -297,7 +312,7 @@ describe('InterfaceIntrospector', function (): void {
         it('filters with multiple constraints narrowing results', function (): void {
             $count = Introspect::interfaces()
                 ->in([TestMultipleInterfaces::class])
-                ->whereNameStartsWith('Tests\Unit')
+                ->whereNameStartsWith('Tests\\Fixtures')
                 ->whereNameContains('Interface')
                 ->whereImplementedBy(TestMultipleInterfaces::class)
                 ->count();
@@ -315,74 +330,3 @@ describe('InterfaceIntrospector', function (): void {
     });
 });
 
-// Test fixtures
-
-/**
- * Base test interface A.
- */
-interface TestInterfaceA {}
-
-/**
- * Base test interface B.
- */
-interface TestInterfaceB {}
-
-/**
- * Base test interface C.
- */
-interface TestInterfaceC {}
-
-/**
- * Parent interface for inheritance testing.
- */
-interface TestParentInterface {}
-
-/**
- * Readable interface for suffix testing.
- */
-interface TestReadable {}
-
-/**
- * Writable interface for suffix testing.
- */
-interface TestWritable {}
-
-/**
- * Namespaced interface for contains testing.
- */
-interface TestNamespacedInterface {}
-
-/**
- * Class implementing multiple interfaces.
- */
-class TestInterfaceImplementation implements TestInterfaceA, TestInterfaceB {}
-
-/**
- * Class implementing three interfaces.
- */
-class TestMultipleInterfaces implements TestInterfaceA, TestInterfaceB, TestInterfaceC {}
-
-/**
- * Parent class implementing an interface.
- */
-class TestParentWithInterface implements TestParentInterface {}
-
-/**
- * Child class inheriting parent's interface.
- */
-class TestChildWithInterface extends TestParentWithInterface {}
-
-/**
- * Class implementing suffixed interfaces.
- */
-class TestSuffixedInterfaces implements TestReadable, TestWritable {}
-
-/**
- * Class implementing namespaced interface.
- */
-class TestNamespacedInterfaceImplementation implements TestNamespacedInterface {}
-
-/**
- * Class without any interfaces for edge case testing.
- */
-class TestClassWithoutInterfaces {}
