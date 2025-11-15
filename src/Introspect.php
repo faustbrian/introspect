@@ -10,9 +10,14 @@
 namespace Cline\Introspect;
 
 use Cline\Introspect\Query\ClassIntrospector;
+use Cline\Introspect\Query\ClassesIntrospector;
 use Cline\Introspect\Query\InstanceIntrospector;
 use Cline\Introspect\Query\InterfaceIntrospector;
+use Cline\Introspect\Query\ModelIntrospector;
+use Cline\Introspect\Query\ModelsIntrospector;
+use Cline\Introspect\Query\RoutesIntrospector;
 use Cline\Introspect\Query\TraitIntrospector;
+use Cline\Introspect\Query\ViewsIntrospector;
 
 /**
  * Fluent introspection facade for inspecting PHP classes, traits, interfaces, and instances.
@@ -83,5 +88,56 @@ class Introspect
     public static function interfaces(): InterfaceIntrospector
     {
         return new InterfaceIntrospector();
+    }
+
+    /**
+     * Create a views query builder.
+     *
+     * @return ViewsIntrospector Fluent query builder for view queries
+     */
+    public static function views(): ViewsIntrospector
+    {
+        return new ViewsIntrospector();
+    }
+
+    /**
+     * Create a routes query builder.
+     *
+     * @return RoutesIntrospector Fluent query builder for route queries
+     */
+    public static function routes(): RoutesIntrospector
+    {
+        return new RoutesIntrospector();
+    }
+
+    /**
+     * Create a classes query builder.
+     *
+     * @return ClassesIntrospector Fluent query builder for discovering classes
+     */
+    public static function classes(): ClassesIntrospector
+    {
+        return new ClassesIntrospector();
+    }
+
+    /**
+     * Create a models query builder.
+     *
+     * @return ModelsIntrospector Fluent query builder for Eloquent model queries
+     */
+    public static function models(): ModelsIntrospector
+    {
+        return new ModelsIntrospector();
+    }
+
+    /**
+     * Get detailed model introspection.
+     *
+     * @param  string $modelClass Fully-qualified model class name
+     * @return ModelIntrospector Detailed model introspector
+     */
+    public static function model(string $modelClass): ModelIntrospector
+    {
+        return new ModelIntrospector($modelClass);
     }
 }
