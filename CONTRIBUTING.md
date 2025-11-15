@@ -14,8 +14,8 @@ Thank you for your interest in contributing to this project. We value your contr
 1. Fork the repository to your GitHub account
 2. Clone your fork locally:
    ```bash
-   git clone https://github.com/your-username/:package_name.git
-   cd :package_name
+   git clone https://github.com/your-username/introspect.git
+   cd introspect
    ```
 3. Install dependencies:
    ```bash

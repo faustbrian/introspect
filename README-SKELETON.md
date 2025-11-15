@@ -13,7 +13,7 @@ To create a new package from this skeleton:
    ```
 
 2. Replace all placeholders in the files:
-   - `:package_name` - The package name (e.g., `my-awesome-package`)
+   - `introspect` - The package name (e.g., `my-awesome-package`)
    - `:package_description` - A short description of the package
    - `:vendor_namespace` - The vendor namespace in PascalCase (e.g., `MyAwesomePackage`)
 
@@ -31,7 +31,7 @@ To create a new package from this skeleton:
    VENDOR_NS="MyPackage"
 
    # Replace in all files
-   find . -type f \( -name "*.json" -o -name "*.md" \) -exec sed -i '' "s/:package_name/$PACKAGE_NAME/g" {} +
+   find . -type f \( -name "*.json" -o -name "*.md" \) -exec sed -i '' "s/introspect/$PACKAGE_NAME/g" {} +
    find . -type f \( -name "*.json" -o -name "*.md" \) -exec sed -i '' "s/:package_description/$PACKAGE_DESC/g" {} +
    find . -type f -name "composer.json" -exec sed -i '' "s/:vendor_namespace/$VENDOR_NS/g" {} +
    ```

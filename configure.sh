@@ -76,7 +76,7 @@ for file in $files; do
     cp "$file" "$file.bak"
 
     # Replace placeholders
-    sed -i.tmp "s/:package_name/$package_name/g" "$file"
+    sed -i.tmp "s/introspect/$package_name/g" "$file"
     sed -i.tmp "s/:package_description/$package_description/g" "$file"
 
     # Remove temp file
