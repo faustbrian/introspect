@@ -31,32 +31,31 @@ use function it;
  */
 describe('RoutesIntrospector', function (): void {
     beforeEach(function (): void {
-        // Clear existing routes
-        Route::getRoutes()->clear();
+        // Only register test routes if they don't exist
+        if (! $this->app['router']->has('users.index')) {
+            Route::get('/users', fn() => 'users.index')
+                ->name('users.index')
+                ->middleware('auth');
 
-        // Register test routes
-        Route::get('/users', fn() => 'users.index')
-            ->name('users.index')
-            ->middleware('auth');
+            Route::post('/users', fn() => 'users.store')
+                ->name('users.store')
+                ->middleware(['auth', 'verified']);
 
-        Route::post('/users', fn() => 'users.store')
-            ->name('users.store')
-            ->middleware(['auth', 'verified']);
+            Route::get('/users/{id}', fn($id) => "users.show: {$id}")
+                ->name('users.show')
+                ->middleware('auth');
 
-        Route::get('/users/{id}', fn($id) => "users.show: {$id}")
-            ->name('users.show')
-            ->middleware('auth');
+            Route::get('/admin/dashboard', fn() => 'admin.dashboard')
+                ->name('admin.dashboard')
+                ->middleware(['auth', 'admin']);
 
-        Route::get('/admin/dashboard', fn() => 'admin.dashboard')
-            ->name('admin.dashboard')
-            ->middleware(['auth', 'admin']);
+            Route::get('/public/about', fn() => 'public.about')
+                ->name('public.about');
 
-        Route::get('/public/about', fn() => 'public.about')
-            ->name('public.about');
-
-        Route::get('/api/v1/users', fn() => 'api.v1.users')
-            ->name('api.v1.users')
-            ->middleware('api');
+            Route::get('/api/v1/users', fn() => 'api.v1.users')
+                ->name('api.v1.users')
+                ->middleware('api');
+        }
     });
 
     describe('Happy Path', function (): void {

@@ -33,13 +33,6 @@ use function it;
  * - Edge cases and filter chaining
  */
 describe('ModelsIntrospector', function (): void {
-    beforeEach(function (): void {
-        // Ensure fixtures are loaded
-        class_exists(TestUser::class);
-        class_exists(TestPost::class);
-        class_exists(TestProduct::class);
-    });
-
     describe('Happy Path', function (): void {
         it('filters models by property existence', function (): void {
             $models = Introspect::models()

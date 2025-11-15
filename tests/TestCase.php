@@ -16,4 +16,12 @@ use Orchestra\Testbench\TestCase as BaseTestCase;
  *
  * @author Brian Faust <brian@cline.sh>
  */
-abstract class TestCase extends BaseTestCase {}
+abstract class TestCase extends BaseTestCase {
+    protected function defineEnvironment($app): void
+    {
+        // Configure view paths for ViewsIntrospector tests
+        $app['config']->set('view.paths', [
+            __DIR__ . '/Fixtures/views',
+        ]);
+    }
+}

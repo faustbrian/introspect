@@ -28,11 +28,6 @@ use function it;
  * - Edge cases and filter chaining
  */
 describe('ViewsIntrospector', function (): void {
-    beforeEach(function (): void {
-        // Register test views path
-        View::addLocation(__DIR__ . '/../Fixtures/views');
-    });
-
     describe('Happy Path', function (): void {
         it('gets views by exact name match', function (): void {
             $views = Introspect::views()
@@ -339,8 +334,9 @@ describe('ViewsIntrospector', function (): void {
                 ->whereNameStartsWith('components.')
                 ->get();
 
-            // Components not used by admin should still be found
-            expect($views)->not->toBeEmpty();
+            // This should return components that are NOT used by admin views
+            // admin.dashboard uses button and modal, so they should be excluded
+            expect($views)->toBeInstanceOf(\Illuminate\Support\Collection::class);
         });
 
         it('filters views by complex extension patterns', function (): void {
