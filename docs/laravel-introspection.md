@@ -1,8 +1,3 @@
----
-title: Laravel Introspection
-description: Query and filter Laravel views, routes, middleware, events, jobs, and service providers at runtime.
----
-
 Introspect provides fluent query builders for Laravel-specific constructs including views, routes, middleware, events, queue jobs, and service providers.
 
 ## Views Introspection

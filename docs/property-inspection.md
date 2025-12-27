@@ -1,8 +1,3 @@
----
-title: Property Inspection
-description: Inspect class properties, check for their existence, and retrieve lists of public properties available on a class.
----
-
 These functions help you inspect class properties, check for their existence, and retrieve lists of public properties available on a class.
 
 ## Basic Property Detection

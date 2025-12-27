@@ -1,8 +1,3 @@
----
-title: Getting Started
-description: Runtime introspection helpers for PHP 8.4+ featuring trait detection, class hierarchy inspection, and reflection utilities.
----
-
 Runtime introspection helpers for PHP 8.4+ featuring trait detection, class hierarchy inspection, and reflection utilities.
 
 ## Requirements

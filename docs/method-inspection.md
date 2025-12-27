@@ -1,8 +1,3 @@
----
-title: Method Inspection
-description: Introspect class methods, check for their existence, verify visibility, and retrieve lists of available methods.
----
-
 These functions allow you to introspect class methods, check for their existence, verify visibility, and retrieve lists of available methods.
 
 ## Basic Method Detection

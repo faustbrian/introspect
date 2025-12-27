@@ -1,8 +1,3 @@
----
-title: Constant Introspection
-description: Inspect class constants including visibility, final status, types, and attributes.
----
-
 Introspect provides fluent querying of class constants with support for filtering by visibility, final status, and PHP 8 attributes.
 
 ## Basic Usage

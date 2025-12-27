@@ -1,8 +1,3 @@
----
-title: Trait Inspection
-description: Determine which traits a class uses, either checking for specific traits or retrieving all traits.
----
-
 The trait inspection functions allow you to determine which traits a class uses, either checking for specific traits or retrieving all traits used by a class.
 
 ## Basic Trait Detection

@@ -1,8 +1,3 @@
----
-title: Class Utilities
-description: Convenient ways to work with class names and namespaces, making it easier to manipulate and display class information.
----
-
 These utility functions provide convenient ways to work with class names and namespaces, making it easier to manipulate and display class information.
 
 ## Class Basename

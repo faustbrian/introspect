@@ -1,8 +1,3 @@
----
-title: Fluent API
-description: Laravel-inspired chainable query builders for runtime introspection.
----
-
 The Introspect package provides a fluent, chainable API inspired by Laravel's query builders. All introspection starts with the `Introspect` facade.
 
 ## Class Introspection

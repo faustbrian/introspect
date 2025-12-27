@@ -1,8 +1,3 @@
----
-title: Class Hierarchy
-description: Inspect class inheritance and interface implementation to determine relationships between classes and their contracts.
----
-
 These functions help you inspect class inheritance and interface implementation, allowing you to determine relationships between classes and their contracts.
 
 ## Interface Implementation

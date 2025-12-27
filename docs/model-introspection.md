@@ -1,8 +1,3 @@
----
-title: Model Introspection
-description: Inspect Laravel Eloquent models including properties, relationships, schema, scopes, and more.
----
-
 Introspect provides comprehensive introspection for Laravel Eloquent models, including properties, relationships, schema analysis, and runtime behavior.
 
 ## Discovering Models

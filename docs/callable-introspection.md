@@ -1,8 +1,3 @@
----
-title: Callable Introspection
-description: Inspect closures, invokable objects, callable arrays, and callable strings.
----
-
 Introspect provides detailed analysis of PHP callables including closures, invokable objects, callable arrays, and callable strings.
 
 ## Basic Usage

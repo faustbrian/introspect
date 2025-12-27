@@ -1,8 +1,3 @@
----
-title: Enum Introspection
-description: Inspect PHP 8.1+ enums including cases, backing types, traits, interfaces, and attributes.
----
-
 Introspect provides comprehensive introspection for PHP 8.1+ enums, supporting both unit enums and backed enums.
 
 ## Basic Usage

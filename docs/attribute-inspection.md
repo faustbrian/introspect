@@ -1,8 +1,3 @@
----
-title: Attribute Inspection
-description: Work with PHP 8.0+ attributes, checking for their presence and retrieving attribute instances from classes.
----
-
 These functions allow you to work with PHP 8.0+ attributes, checking for their presence and retrieving attribute instances from classes.
 
 ## Basic Attribute Detection
