@@ -13,6 +13,7 @@ use Rector\DeadCode\Rector\ClassConst\RemoveUnusedPrivateClassConstantRector;
 use Rector\DeadCode\Rector\ClassMethod\RemoveEmptyClassMethodRector;
 use Rector\DeadCode\Rector\ClassMethod\RemoveUnusedPrivateMethodRector;
 use Rector\DeadCode\Rector\Property\RemoveUnusedPrivatePropertyRector;
+use Rector\Privatization\Rector\ClassConst\PrivatizeFinalClassConstantRector;
 use Rector\Privatization\Rector\ClassMethod\PrivatizeFinalClassMethodRector;
 use Rector\Privatization\Rector\MethodCall\PrivatizeLocalGetterToPropertyRector;
 use Rector\Privatization\Rector\Property\PrivatizeFinalClassPropertyRector;
@@ -29,6 +30,7 @@ return Factory::create(
         RemoveUnusedPrivateClassConstantRector::class => [__DIR__.'/tests'],
         PrivatizeFinalClassPropertyRector::class => [__DIR__.'/tests'],
         PrivatizeFinalClassMethodRector::class => [__DIR__.'/tests'],
+        PrivatizeFinalClassConstantRector::class => [__DIR__.'/tests'],
         RemoveFinalFromConstRector::class => [__DIR__.'/tests'],
         AddVoidReturnTypeWhereNoReturnRector::class => [__DIR__.'/tests'],
         AddArrowFunctionReturnTypeRector::class => [__DIR__.'/tests'],
