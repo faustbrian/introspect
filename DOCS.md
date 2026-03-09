@@ -1,18 +1,20 @@
 ## Table of Contents
 
-1. Overview (`docs/README.md`)
-2. Attribute Inspection (`docs/attribute-inspection.md`)
-3. Callable Introspection (`docs/callable-introspection.md`)
-4. Class Hierarchy (`docs/class-hierarchy.md`)
-5. Class Utilities (`docs/class-utilities.md`)
-6. Constant Introspection (`docs/constant-introspection.md`)
-7. Enum Introspection (`docs/enum-introspection.md`)
-8. Fluent Api (`docs/fluent-api.md`)
-9. Laravel Introspection (`docs/laravel-introspection.md`)
-10. Method Inspection (`docs/method-inspection.md`)
-11. Model Introspection (`docs/model-introspection.md`)
-12. Property Inspection (`docs/property-inspection.md`)
-13. Trait Inspection (`docs/trait-inspection.md`)
+1. [Overview](#doc-docs-readme) (`docs/README.md`)
+2. [Attribute Inspection](#doc-docs-attribute-inspection) (`docs/attribute-inspection.md`)
+3. [Callable Introspection](#doc-docs-callable-introspection) (`docs/callable-introspection.md`)
+4. [Class Hierarchy](#doc-docs-class-hierarchy) (`docs/class-hierarchy.md`)
+5. [Class Utilities](#doc-docs-class-utilities) (`docs/class-utilities.md`)
+6. [Constant Introspection](#doc-docs-constant-introspection) (`docs/constant-introspection.md`)
+7. [Enum Introspection](#doc-docs-enum-introspection) (`docs/enum-introspection.md`)
+8. [Fluent Api](#doc-docs-fluent-api) (`docs/fluent-api.md`)
+9. [Laravel Introspection](#doc-docs-laravel-introspection) (`docs/laravel-introspection.md`)
+10. [Method Inspection](#doc-docs-method-inspection) (`docs/method-inspection.md`)
+11. [Model Introspection](#doc-docs-model-introspection) (`docs/model-introspection.md`)
+12. [Property Inspection](#doc-docs-property-inspection) (`docs/property-inspection.md`)
+13. [Trait Inspection](#doc-docs-trait-inspection) (`docs/trait-inspection.md`)
+<a id="doc-docs-readme"></a>
+
 Runtime introspection helpers for PHP 8.4+ featuring trait detection, class hierarchy inspection, and reflection utilities.
 
 ## Requirements
@@ -110,6 +112,8 @@ Introspect::method($class, $name)   // Detailed method introspection
 - **Enum Inspection** - Introspect PHP 8.1+ enums with backing types and cases
 - **Callable Inspection** - Analyze closures, invokables, and callable arrays
 - **Standalone Helpers** - Use as functions or fluent API
+
+<a id="doc-docs-attribute-inspection"></a>
 
 These functions allow you to work with PHP 8.0+ attributes, checking for their presence and retrieving attribute instances from classes.
 
@@ -279,6 +283,8 @@ if (!$checker->check($user, AdminUserController::class)) {
     throw new UnauthorizedException();
 }
 ```
+
+<a id="doc-docs-callable-introspection"></a>
 
 Introspect provides detailed analysis of PHP callables including closures, invokable objects, callable arrays, and callable strings.
 
@@ -540,6 +546,8 @@ $docComment = $reflection->getDocComment();
 | `getReflection()` | Get underlying reflection |
 | `toArray()` | Export all information |
 
+<a id="doc-docs-class-hierarchy"></a>
+
 These functions help you inspect class inheritance and interface implementation, allowing you to determine relationships between classes and their contracts.
 
 ## Interface Implementation
@@ -701,6 +709,8 @@ class PluginLoader
 }
 ```
 
+<a id="doc-docs-class-utilities"></a>
+
 These utility functions provide convenient ways to work with class names and namespaces, making it easier to manipulate and display class information.
 
 ## Class Basename
@@ -827,6 +837,8 @@ class RepositoryResolver
     }
 }
 ```
+
+<a id="doc-docs-constant-introspection"></a>
 
 Introspect provides fluent querying of class constants with support for filtering by visibility, final status, and PHP 8 attributes.
 
@@ -1031,6 +1043,8 @@ $info = Introspect::constants(TypedConfig::class)->get('APP_NAME');
 | `get($name)` | Get detailed info about a specific constant |
 | `toArray()` | Get detailed info for all matching constants |
 
+<a id="doc-docs-enum-introspection"></a>
+
 Introspect provides comprehensive introspection for PHP 8.1+ enums, supporting both unit enums and backed enums.
 
 ## Basic Usage
@@ -1229,6 +1243,8 @@ $enum->cases();        // ['Bronze', 'Silver', 'Gold']
 | `get()` | Get enum name if filters pass, null otherwise |
 | `getReflection()` | Get underlying ReflectionEnum |
 | `toArray()` | Export all enum information |
+
+<a id="doc-docs-fluent-api"></a>
 
 The Introspect package provides a fluent, chainable API inspired by Laravel's query builders. All introspection starts with the `Introspect` facade.
 
@@ -1437,6 +1453,8 @@ $interfaces = Introspect::interfaces()
     ->whereImplementedBy(User::class)
     ->get();
 ```
+
+<a id="doc-docs-laravel-introspection"></a>
 
 Introspect provides fluent query builders for Laravel-specific constructs including views, routes, middleware, events, queue jobs, and service providers.
 
@@ -1775,6 +1793,8 @@ All Laravel introspectors support these terminal methods:
 | `exists()` | Check if any items match |
 | `count()` | Count matching items |
 
+<a id="doc-docs-method-inspection"></a>
+
 These functions allow you to introspect class methods, check for their existence, verify visibility, and retrieve lists of available methods.
 
 ## Basic Method Detection
@@ -1927,6 +1947,8 @@ class Post
 $checker = new PermissionChecker();
 $checker->canPerform($user, 'publish', $post); // Calls Post::canPublish()
 ```
+
+<a id="doc-docs-model-introspection"></a>
 
 Introspect provides comprehensive introspection for Laravel Eloquent models, including properties, relationships, schema analysis, and runtime behavior.
 
@@ -2250,6 +2272,8 @@ $data = Introspect::model(User::class)->toArray();
 | `schema()` | Get JSON schema representation |
 | `toArray()` | Export all model information |
 
+<a id="doc-docs-property-inspection"></a>
+
 These functions help you inspect class properties, check for their existence, and retrieve lists of public properties available on a class.
 
 ## Basic Property Detection
@@ -2395,6 +2419,8 @@ class SimpleSerializer
     }
 }
 ```
+
+<a id="doc-docs-trait-inspection"></a>
 
 The trait inspection functions allow you to determine which traits a class uses, either checking for specific traits or retrieving all traits used by a class.
 
