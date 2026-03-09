@@ -1,18 +1,18 @@
 ## Table of Contents
 
-1. [Overview](#doc-docs-readme) (`docs/README.md`)
-2. [Attribute Inspection](#doc-docs-attribute-inspection) (`docs/attribute-inspection.md`)
-3. [Callable Introspection](#doc-docs-callable-introspection) (`docs/callable-introspection.md`)
-4. [Class Hierarchy](#doc-docs-class-hierarchy) (`docs/class-hierarchy.md`)
-5. [Class Utilities](#doc-docs-class-utilities) (`docs/class-utilities.md`)
-6. [Constant Introspection](#doc-docs-constant-introspection) (`docs/constant-introspection.md`)
-7. [Enum Introspection](#doc-docs-enum-introspection) (`docs/enum-introspection.md`)
-8. [Fluent Api](#doc-docs-fluent-api) (`docs/fluent-api.md`)
-9. [Laravel Introspection](#doc-docs-laravel-introspection) (`docs/laravel-introspection.md`)
-10. [Method Inspection](#doc-docs-method-inspection) (`docs/method-inspection.md`)
-11. [Model Introspection](#doc-docs-model-introspection) (`docs/model-introspection.md`)
-12. [Property Inspection](#doc-docs-property-inspection) (`docs/property-inspection.md`)
-13. [Trait Inspection](#doc-docs-trait-inspection) (`docs/trait-inspection.md`)
+1. [Overview](#doc-docs-readme)
+2. [Attribute Inspection](#doc-docs-attribute-inspection)
+3. [Callable Introspection](#doc-docs-callable-introspection)
+4. [Class Hierarchy](#doc-docs-class-hierarchy)
+5. [Class Utilities](#doc-docs-class-utilities)
+6. [Constant Introspection](#doc-docs-constant-introspection)
+7. [Enum Introspection](#doc-docs-enum-introspection)
+8. [Fluent Api](#doc-docs-fluent-api)
+9. [Laravel Introspection](#doc-docs-laravel-introspection)
+10. [Method Inspection](#doc-docs-method-inspection)
+11. [Model Introspection](#doc-docs-model-introspection)
+12. [Property Inspection](#doc-docs-property-inspection)
+13. [Trait Inspection](#doc-docs-trait-inspection)
 <a id="doc-docs-readme"></a>
 
 Runtime introspection helpers for PHP 8.4+ featuring trait detection, class hierarchy inspection, and reflection utilities.
